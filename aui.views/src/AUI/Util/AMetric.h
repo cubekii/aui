@@ -88,6 +88,7 @@ public:
         T_PX,
         T_DP,
         T_PT,
+        T_RAD,
     };
 
 private:
@@ -246,6 +247,10 @@ constexpr inline AMetric operator""_dp(unsigned long long v)
 constexpr inline AMetric operator""_pt(unsigned long long v)
 {
     return AMetric(static_cast<float>(static_cast<long long>(v)), AMetric::T_PT);
+}
+constexpr inline AMetric operator ""_rad(unsigned long long v)
+{
+    return AMetric(static_cast<float>(v), AMetric::T_RAD);
 }
 
 inline std::ostream& operator<<(std::ostream& o, const AMetric& value) {
