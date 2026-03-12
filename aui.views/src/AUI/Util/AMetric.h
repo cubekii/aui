@@ -88,6 +88,7 @@ public:
         T_PX,
         T_DP,
         T_PT,
+        T_RD,
     };
 
 private:
@@ -247,6 +248,9 @@ constexpr inline AMetric operator""_pt(unsigned long long v)
 {
     return AMetric(static_cast<float>(static_cast<long long>(v)), AMetric::T_PT);
 }
+constexpr inline AMetric operator""_per(long double v) {
+    return AMetric(static_cast<float>(static_cast<long long>(v)),AMetric::T_RD);
+}
 
 inline std::ostream& operator<<(std::ostream& o, const AMetric& value) {
     o << value.getRawValue();
@@ -259,6 +263,9 @@ inline std::ostream& operator<<(std::ostream& o, const AMetric& value) {
             break;
         case AMetric::T_PT:
             o << "_pt";
+            break;
+        case AMetric::T_RD:
+            o << "_rad";
             break;
 
         default:
@@ -279,6 +286,7 @@ template <> struct fmt::formatter<AMetric> {
             case AMetric::T_PX: suffix = "px"; break;
             case AMetric::T_DP: suffix = "dp"; break;
             case AMetric::T_PT: suffix = "pt"; break;
+            case AMetric::T_RD: suffix = "rd"; break;
             default:            suffix = "";   break;
         }
 
