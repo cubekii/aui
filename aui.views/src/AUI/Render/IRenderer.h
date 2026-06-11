@@ -338,6 +338,7 @@ public:
     virtual void boxShadow(glm::vec2 position,
                            glm::vec2 size,
                            float blurRadius,
+                           float borderRadius,
                            const AColor& color) = 0;
 
     /**

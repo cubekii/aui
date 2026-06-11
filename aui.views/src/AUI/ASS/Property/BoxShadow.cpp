@@ -1,5 +1,5 @@
 /*
- * AUI Framework - Declarative UI toolkit for modern C++20
+* AUI Framework - Declarative UI toolkit for modern C++20
  * Copyright (C) 2020-2025 Alex2772 and Contributors
  *
  * SPDX-License-Identifier: MPL-2.0
@@ -22,6 +22,7 @@ void ass::prop::Property<ass::BoxShadow>::renderFor(AView* view, const ARenderCo
                        mInfo.offsetY.getValuePx() - mInfo.spreadRadius.getValuePx()},
                       glm::vec2(view->getSize()) + mInfo.spreadRadius.getValuePx() * 2.f,
                        mInfo.blurRadius,
+                       mInfo.borderRadius,
                        mInfo.color);
 }
 

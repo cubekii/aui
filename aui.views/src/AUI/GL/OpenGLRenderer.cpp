@@ -433,6 +433,7 @@ void OpenGLRenderer::roundedRectangleBorder(const ABrush& brush,
 void OpenGLRenderer::boxShadow(glm::vec2 position,
                                glm::vec2 size,
                                float blurRadius,
+                               float borderRadius,
                                const AColor& color) {
     AUI_ASSERTX(blurRadius >= 0.f,
                 "blurRadius is expected to be non negative, use boxShadowInner for inset shadows instead");

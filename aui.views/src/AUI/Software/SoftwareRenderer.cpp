@@ -270,6 +270,7 @@ void SoftwareRenderer::roundedRectangleBorder(const ABrush& brush,
 void SoftwareRenderer::boxShadow(glm::vec2 position,
                                  glm::vec2 size,
                                  float blurRadius,
+                                 float borderRadius,
                                  const AColor& color) {
 
     auto transformedPos = glm::vec2(mTransform * glm::vec4(position, 1.f, 1.f));
@@ -340,7 +341,6 @@ void SoftwareRenderer::boxShadowInner(glm::vec2 position,
         }
     }
 }
-
 
 void SoftwareRenderer::setBlending(Blending blending) {
     mBlending = blending;

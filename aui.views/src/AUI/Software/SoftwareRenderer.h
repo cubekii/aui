@@ -128,6 +128,7 @@ public:
     void boxShadow(glm::vec2 position,
                    glm::vec2 size,
                    float blurRadius,
+                   float borderRadius,
                    const AColor& color) override;
     
     void boxShadowInner(glm::vec2 position,
