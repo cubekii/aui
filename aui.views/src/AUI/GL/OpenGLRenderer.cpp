@@ -445,6 +445,8 @@ void OpenGLRenderer::boxShadow(glm::vec2 position,
     mBoxShadowShader->set(aui::ShaderUniforms::SL_UNIFORM_TRANSFORM, mTransform);
     mBoxShadowShader->set(aui::ShaderUniforms::COLOR, mColor * color);
 
+    gl::Program::currentShader()->set(aui::ShaderUniforms::OUTER_SIZE, 2.f * borderRadius / size);
+
     mRectangleVao.bind();
 
     float x = position.x;
