@@ -81,6 +81,7 @@ public:
         glm::vec2 position;
         glm::vec2 size;
         float blurRadius = {};
+        float borderRadius = {};
         AColor color;
     };
     struct BoxShadowInner {

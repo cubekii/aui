@@ -43,7 +43,7 @@ public:
     void roundedRectangle(const APaint& paint, glm::vec2 position, glm::vec2 size, float radius) override;
     void rectangleBorder(const APaint& paint, glm::vec2 position, glm::vec2 size, float lineWidth = 1.f) override;
     void roundedRectangleBorder(const APaint& paint, glm::vec2 position, glm::vec2 size, float radius, int borderWidth) override;
-    void boxShadow(const APaint& paint, glm::vec2 position, glm::vec2 size, float blurRadius, const AColor& color) override;
+    void boxShadow(const APaint& paint, glm::vec2 position, glm::vec2 size, float blurRadius, float borderRadius, const AColor& color) override;
     void boxShadowInner(const APaint& paint,
                         glm::vec2 position,
                         glm::vec2 size,

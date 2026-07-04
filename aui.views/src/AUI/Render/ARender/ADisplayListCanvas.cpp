@@ -201,8 +201,8 @@ void ADisplayListCanvas::roundedRectangleBorder(const APaint& paint,
     add(ADrawList::RoundedRectangleBorders{{ {position, size, combinedColor * brushColor} }, radius, borderWidth}, paint);
 }
 
-void ADisplayListCanvas::boxShadow(const APaint& paint, glm::vec2 position, glm::vec2 size, float blurRadius, const AColor& color) {
-    add(ADrawList::BoxShadow{position, size, blurRadius, color}, paint);
+void ADisplayListCanvas::boxShadow(const APaint& paint, glm::vec2 position, glm::vec2 size, float blurRadius, float borderRadius,const AColor& color) {
+    add(ADrawList::BoxShadow{position, size, blurRadius, borderRadius, color}, paint);
 }
 
 void ADisplayListCanvas::boxShadowInner(const APaint& paint,

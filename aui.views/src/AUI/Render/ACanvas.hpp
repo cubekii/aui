@@ -81,6 +81,7 @@ public:
                            glm::vec2 position,
                            glm::vec2 size,
                            float blurRadius,
+                           float BorderRadius,
                            const AColor& color) = 0;
 
     virtual void boxShadowInner(const APaint& paint,
