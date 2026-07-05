@@ -1109,8 +1109,14 @@ void OpenGLBackend::boxShadow(const ADrawList::BoxShadow& v, const glm::mat4& tr
     mBoxShadowShader->set(aui::ShaderUniforms::SL_UNIFORM_UPPER, v.position + v.size);
     mBoxShadowShader->set(aui::ShaderUniforms::SL_UNIFORM_SIGMA, sigma);
 
-    VertexBasic vertices[4];
-    for (int i = 0; i < 4; ++i) vertices[i] = {rectVertices[i], color};
+    glm::vec2 outerSize = glm::vec2(2.f * v.borderRadius) / v.size;
+
+    VertexRounded vertices[4] = {
+        {rectVertices[0], {0.f, 0.f}, color, outerSize},
+        {rectVertices[1], {1.f, 0.f}, color, outerSize},
+        {rectVertices[2], {0.f, 1.f}, color, outerSize},
+        {rectVertices[3], {1.f, 1.f}, color, outerSize},
+    };
     GLuint indices[6] = {0, 1, 2, 2, 1, 3};
 
     size_t vOffset = mVertexBuffer.upload(vertices, sizeof(vertices));
@@ -1118,10 +1124,13 @@ void OpenGLBackend::boxShadow(const ADrawList::BoxShadow& v, const glm::mat4& tr
 
     mBatchVao.bind();
     glEnableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
+    glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(VertexBasic), (void*)(vOffset + offsetof(VertexBasic, pos)));
-    glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(VertexBasic), (void*)(vOffset + offsetof(VertexBasic, color)));
+    glEnableVertexAttribArray(3);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(VertexRounded), (void*)(vOffset + offsetof(VertexRounded, pos)));
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(VertexRounded), (void*)(vOffset + offsetof(VertexRounded, uv)));
+    glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(VertexRounded), (void*)(vOffset + offsetof(VertexRounded, color)));
+    glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(VertexRounded), (void*)(vOffset + offsetof(VertexRounded, outerSize)));
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)iOffset);
 }
