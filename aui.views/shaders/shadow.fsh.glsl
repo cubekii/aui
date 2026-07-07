@@ -37,10 +37,11 @@ void main() {
     vec2 v = vVertex.xy;
 
     vec4 query = vec4(v - lower, v - upper);
-    vec4 integral = 0.5 + 0.5 * erf(query * (sqrt(0.5) / sigma));
-    float factor = rounded(abs(vUv * 2.0 - 1.0), vOuterSize, fwidth(vUv) * 2.0);
+    vec4 integral = 0.5 + 0.5 * erf(query * (sqrt(0.5) / max(sigma, 1e-7)));
+    float factor = clamp((integral.x - integral.z) * (integral.y - integral.w), 0.0, 1.0);
 
-    float shadowFactor = (1.0 - clamp((integral.z - integral.x) * (integral.w - integral.y), 0.0, 1.0));
+    factor *= rounded(abs(vUv * 2.0 - 1.0), vOuterSize, fwidth(vUv) * 2.0);
+
     fragColor = vColor * factor;
     if (u_useMask) {
         vec2 maskUv = (gl_FragCoord.xy - u_maskRect.xy) / u_maskRect.zw;
