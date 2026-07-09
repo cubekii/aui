@@ -32,25 +32,10 @@ float rounded(vec2 absolute, vec2 size, vec2 absoluteDerivatives) {
     float d = sdRoundedBox(absolute * halfSize, halfSize, r);
     float shape = smoothstep(0.5, -0.5, d);
 
-    // --- glow / shading ---
-
-    // Distance from the edge (positive inside, 0 on edge, positive outside).
-    float edgeDist = -d;
-
-    // Inner glow: peaks at the edge (edgeDist == 0) and falls off inward.
-    // Use a constant pixel glow width so the shadow is independent of shape size.
     float glowWidth = 15.0;
-    float innerGlow = erf(pow(max(edgeDist, 0.0) / max(glowWidth, 1e-5), 2.0) / sigma);
+    float innerGlow = erf(pow(max(-d, 0.0) / max(glowWidth, 1e-5), 2.0)) / sigma;
 
-    // Corner accent: the sdRoundedBox internals expose q implicitly through d.
-    // Re-derive q to identify the corner arc region (both components near zero).
-    vec2 q = abs(absolute * halfSize) - halfSize + r;
-    float cornerness = smoothstep(r * 0.8, 0.0, length(max(q, 0.0)));
-    float cornerAccent = cornerness * 0.4;
-
-    float shading = mix(innerGlow, 1.0, cornerAccent);
-
-    return shape * shading;
+    return shape * innerGlow;
 }
 
 void main() {

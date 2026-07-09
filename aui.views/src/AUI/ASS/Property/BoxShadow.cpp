@@ -19,8 +19,8 @@ void ass::prop::Property<ass::BoxShadow>::renderFor(AView* view, const ARenderCo
                        mInfo.offsetY.getValuePx() - mInfo.spreadRadius.getValuePx()},
                       glm::vec2(view->getSize()) + mInfo.spreadRadius.getValuePx() * 2.f,
                        mInfo.blurRadius,
-                       view->getBorderRadius(),
-                       mInfo.color);
+               glm::min(view->getBorderRadius(), glm::min(view->getWidth(), view->getHeight()) * 0.5f),
+                          mInfo.color);
 }
 
 ass::prop::PropertySlot ass::prop::Property<ass::BoxShadow>::getPropertySlot() const {
