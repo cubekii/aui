@@ -38,8 +38,8 @@ float rounded(vec2 absolute, vec2 size, vec2 absoluteDerivatives) {
     float edgeDist = -d;
 
     // Inner glow: peaks at the edge (edgeDist == 0) and falls off inward.
-    // glowWidth controls how far the glow reaches into the shape.
-    float glowWidth = min(halfSize.x, halfSize.y) * 0.15;
+    // Use a constant pixel glow width so the shadow is independent of shape size.
+    float glowWidth = 15.0;
     float innerGlow = erf(pow(max(edgeDist, 0.0) / max(glowWidth, 1e-5), 2.0) / sigma);
 
     // Corner accent: the sdRoundedBox internals expose q implicitly through d.
