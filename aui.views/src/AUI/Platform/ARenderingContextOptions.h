@@ -74,9 +74,7 @@ struct API_AUI_VIEWS ARenderingContextOptions {
     static void set(ARenderingContextOptions options) {
         inst() = std::move(options);
     }
-    static const ARenderingContextOptions& get() noexcept {
-        return inst();
-    }
+    static const ARenderingContextOptions& get() noexcept;
 
 private:
     static ARenderingContextOptions& inst();

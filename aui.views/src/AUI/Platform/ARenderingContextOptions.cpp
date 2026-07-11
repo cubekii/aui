@@ -14,6 +14,9 @@
 //
 
 #include "ARenderingContextOptions.h"
+#include <AUI/Platform/Entry.h>
+#include <AUI/Util/ACommandLineArgs.h>
+#include <AUI/Logging/ALogger.h>
 
 ARenderingContextOptions& ARenderingContextOptions::inst() {
     static ARenderingContextOptions o = {
@@ -22,5 +25,28 @@ ARenderingContextOptions& ARenderingContextOptions::inst() {
             Software {},
         },
     };
+    return o;
+}
+
+const ARenderingContextOptions& ARenderingContextOptions::get() noexcept {
+    auto& o = inst();
+    static bool cliParsed = false;
+    if (!cliParsed) {
+        cliParsed = true;
+        if (auto arg = aui::args().value("aui-renderer")) {
+            auto& val = arg.value();
+            if (val == "gl") {
+                o.initializationOrder = { OpenGL {} };
+            } else if (val == "soft") {
+                o.initializationOrder = { Software {} };
+            //} else if (val == "dx11") {
+            //    o.initializationOrder = { DirectX11 { 11 } };
+            } else {
+                ALogger::warn("ARenderingContextOptions")
+                    << "Unknown --aui-renderer value: \"" << val
+                    << "\". Expected: gl, soft";
+            }
+        }
+    }
     return o;
 }
