@@ -109,6 +109,21 @@ float roundedRectBorderCoverage(glm::vec2 localPos, glm::vec2 size, float radius
     return glm::clamp(0.5f - sdf_border * scale, 0.f, 1.f);
 }
 
+float rounded_shadow(glm::vec2 localPos, glm::vec2 size, float borderRadius, float sigma, float scale, float padding) {
+    float r = borderRadius * (size.x + 2.f * padding) / size.x + 4.f / glm::max(scale, 0.001f);
+    glm::vec2 halfPadded = size * 0.5f + padding;
+    glm::vec2 q = glm::abs(localPos - size * 0.5f) - halfPadded + r;
+    float d = (glm::min(glm::max(q.x, q.y), 0.0f) + glm::length(glm::max(q, 0.0f)) - r) * scale;
+
+    float shape = glm::clamp(0.5f - d, 0.f, 1.f);
+
+    float glowWidth = 15.f;
+    float t = glm::max(-d, 0.0f) / glowWidth;
+    float innerGlow = erf(glm::vec4(t * t)).x / sigma;
+
+    return shape * innerGlow;
+}
+
 AColor sample(const AImage& img, glm::vec2 uv, TextureFilter filter, bool clampToEdge = false) {
     if (img.width() == 0 || img.height() == 0) return AColor::BLACK;
 
@@ -625,18 +640,17 @@ void SoftwareRenderer::boxShadow(const ADrawList::BoxShadow& v, const glm::mat4&
     float maxY = std::ceil(std::max({p1.y, p2.y, p3.y, p4.y}));
 
     glm::mat4 invTransform = glm::inverse(transform);
+    float scale = glm::length(glm::vec2(transform * glm::vec4(1.f, 0.f, 0.f, 0.f)));
     AColor color = v.color.premultiply();
 
     for (int y = (int)minY; y < (int)maxY; ++y) {
         for (int x = (int)minX; x < (int)maxX; ++x) {
             glm::vec4 localPos4 = invTransform * glm::vec4((float)x + 0.5f, (float)y + 0.5f, 0.f, 1.f);
-            glm::vec2 val = glm::vec2(localPos4.x, localPos4.y);
-            glm::vec4 query = glm::vec4(val - v.position, val - (v.position + v.size));
-            glm::vec4 erfVal = erf(query * (std::sqrt(0.5f) / sigma));
-            glm::vec4 integral = glm::vec4(0.5f) + glm::vec4(0.5f) * erfVal;
-            float shadowFactor = glm::clamp((integral.z - integral.x) * (integral.w - integral.y), 0.f, 1.f);
-            if (shadowFactor > 0.001f) {
-                putPixel({x, y}, color * shadowFactor, paint.blending);
+            glm::vec2 localPos = glm::vec2(localPos4.x, localPos4.y) - v.position;
+
+            float factor = rounded_shadow(localPos, v.size, (float)v.borderRadius, sigma, scale, padding);
+            if (factor > 0.001f) {
+                putPixel({x, y}, color * factor, paint.blending);
             }
         }
     }
