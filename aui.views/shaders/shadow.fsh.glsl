@@ -21,7 +21,6 @@ float erf(float x) {
 }
 
 float sdRoundedBox(in vec2 p, in vec2 b, in float r) {
-    r += 6.0;
     vec2 q = abs(p) - b + r;
     return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - r;
 }

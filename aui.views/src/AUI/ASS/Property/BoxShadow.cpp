@@ -14,12 +14,13 @@
 
 
 void ass::prop::Property<ass::BoxShadow>::renderFor(AView* view, const ARenderContext& ctx) {
+    auto spread = mInfo.spreadRadius.getValuePx();
     ctx.canvas.boxShadow(APaint{},
-                      {mInfo.offsetX.getValuePx() - mInfo.spreadRadius.getValuePx(),
-                       mInfo.offsetY.getValuePx() - mInfo.spreadRadius.getValuePx()},
-                      glm::vec2(view->getSize()) + mInfo.spreadRadius.getValuePx() * 2.f,
+                      {mInfo.offsetX.getValuePx() - spread,
+                       mInfo.offsetY.getValuePx() - spread},
+                      glm::vec2(view->getSize()) + spread * 2.f,
                        mInfo.blurRadius,
-               glm::min(view->getBorderRadius(), glm::min(view->getWidth(), view->getHeight()) * 0.5f),
+               glm::min(view->getBorderRadius(), glm::min(view->getWidth(), view->getHeight()) * 0.5f) + spread,
                           mInfo.color);
 }
 

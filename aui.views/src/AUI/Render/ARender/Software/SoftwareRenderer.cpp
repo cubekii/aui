@@ -110,7 +110,7 @@ float roundedRectBorderCoverage(glm::vec2 localPos, glm::vec2 size, float radius
 }
 
 float rounded_shadow(glm::vec2 localPos, glm::vec2 size, float borderRadius, float sigma, float scale, float padding) {
-    float r = borderRadius * (size.x + 2.f * padding) / size.x + 6.f / glm::max(scale, 0.001f);
+    float r = borderRadius * (size.x + 2.f * padding) / size.x / glm::max(scale, 0.001f);
     glm::vec2 halfPadded = size * 0.5f + padding;
     glm::vec2 q = glm::abs(localPos - size * 0.5f) - halfPadded + r;
     float d = (glm::min(glm::max(q.x, q.y), 0.0f) + glm::length(glm::max(q, 0.0f)) - r) * scale;
