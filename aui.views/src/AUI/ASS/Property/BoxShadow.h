@@ -32,20 +32,17 @@ namespace ass {
         AMetric offsetY;
         AMetric blurRadius;
         AMetric spreadRadius;
-        AMetric borderRadius;
         AColor color;
 
         BoxShadow(AMetric offsetX,
                   AMetric offsetY,
                   AMetric blurRadius,
                   AMetric spreadRadius,
-                  AMetric borderRadius,
                   const AColor& color):
             offsetX(offsetX),
             offsetY(offsetY),
             blurRadius(blurRadius),
             spreadRadius(spreadRadius),
-            borderRadius(borderRadius),
             color(color) {}
 
         BoxShadow(AMetric offsetX,

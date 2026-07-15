@@ -130,7 +130,7 @@ AStylesheet::AStylesheet() {
             BorderRadius {5_dp},
             ATextAlign::CENTER,
             VerticalAlign::MIDDLE,
-            BoxShadow {{}, 1_dp, 4_dp, -2_dp, 5_dp ,0x80000000_argb},
+            BoxShadow {{}, 1_dp, 4_dp, -2_dp, 0x80000000_argb},
         },
         {
             t<AButton>::hover(),
@@ -149,13 +149,13 @@ AStylesheet::AStylesheet() {
                             {0.f, getOsThemeColor()},
                     },
             } },
-            BoxShadow { 0, 1_dp, 3_dp, -1_dp, 0_dp, getOsThemeColor() },
+            BoxShadow { 0, 1_dp, 3_dp, -1_dp, getOsThemeColor() },
             Border { nullptr },
             TextColor { 0xffffff_rgb },
         },
         {
             button::Default(t<AButton>::hover()),
-            BoxShadow { 0, 1_dp, 6_dp, -1_dp, 0_dp, getOsThemeColor() },
+            BoxShadow { 0, 1_dp, 6_dp, -1_dp, getOsThemeColor() },
         },
         {
             t<AButton>::active(),
